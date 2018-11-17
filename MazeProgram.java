@@ -79,10 +79,14 @@ public class MazeProgram extends JPanel implements KeyListener, MouseListener {
             g.fillPolygon(c.getPoly());
         }
         for (Ceiling c: wallList) {
-            g.setColor(Color.DARK_GRAY);
+            GradientPaint redtowhite = new GradientPaint(0,0,color.BLACK,100, 0,color.WHITE);
+            g.setColor(Color.GRAY);
             g.fillPolygon(c.getPoly());
         }
         wallList.clear();
+
+
+
         if (x == 6 && y == 1){
 			mapPickup = true;
 		}
@@ -95,13 +99,38 @@ public class MazeProgram extends JPanel implements KeyListener, MouseListener {
 		}
 
 		if(endScreen){
-			g.setColor(Color.BLACK);
+			Color newColor = new Color(1f,0f,0f,.5f);
+			g.setColor(newColor);
 			g.fillRect(0,0,1450,800);
-			Font newFont = new Font("Serif", Font.BOLD, 30);
+			Font newFont = new Font("Courier", Font.BOLD, 50);
 			g.setFont(newFont);
+			g.setColor(Color.GRAY);
+			g.drawString("Game over!",602,180);
 			g.setColor(Color.WHITE);
-			g.drawString("You have completed the maze in "+counterMoves+" moves. Congratualations!", 350, 250);
-			g.drawString("Click \"R\" to restart the maze, or turn around and continue exploring.", 270, 280);
+			g.drawString("Game over!",600,178);
+			newFont = new Font("Courier", Font.BOLD, 24);
+			g.setFont(newFont);
+			g.setColor(Color.GRAY);
+			g.drawString("Score: ", 692, 272);
+			g.setColor(Color.WHITE);
+			g.drawString("Score: ", 690, 270);
+			g.setColor(Color.GRAY);
+			g.drawString(""+counterMoves, 782, 272);
+			g.setColor(Color.YELLOW);
+			g.drawString(""+counterMoves, 780, 270);
+			g.setColor(Color.GRAY);
+			g.drawString("Click the box to start over!", 542, 432);
+			g.setColor(Color.WHITE);
+			g.drawString("Click the box to start over!", 540, 430);
+			g.setColor(Color.GRAY);
+			g.fillRect(492,452,480,70);
+			g.setColor(Color.WHITE);
+			g.fillRect(490,450,480,70);
+			g.setColor(Color.GRAY);
+			g.drawString("Restart World", 642, 492);
+			g.setColor(Color.RED);
+			g.drawString("Restart World", 640, 490);
+			//g.drawString(xx+", "+yy,30,300);
 		}
 
         //2DMAP
@@ -358,6 +387,15 @@ public class MazeProgram extends JPanel implements KeyListener, MouseListener {
 
     }
 
+    public void restart(){
+		x=1;
+		y=1;
+		endScreen = false;
+		compassMode = false;
+		mapPickup = false;
+		counterMoves = 0;
+	}
+
     public void keyPressed(KeyEvent ke) {
         //System.out.println(ke);
         //turning left
@@ -491,6 +529,15 @@ public class MazeProgram extends JPanel implements KeyListener, MouseListener {
     public void mouseClicked(MouseEvent e) {
         xx = e.getX();
         yy = e.getY();
+
+        //RECTAGNLE g.fillRect(490,450,480,70)
+
+        if(endScreen){
+			if (e.getX() > 490 && e.getX() < 480 + 490 && e.getY() > 450 && e.getY() < 450 + 70) {
+        	restart();
+		}
+		}
+
         repaint();
     }
     public void mousePressed(MouseEvent e) {}
